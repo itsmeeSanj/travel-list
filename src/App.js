@@ -1,4 +1,5 @@
 import React from "react";
+import FlashCard from "./components/FlashCard";
 
 export default function App() {
   const initialItems = [
@@ -12,6 +13,9 @@ export default function App() {
       <Form />
       <PackingList initialItems={initialItems} />
       <Stats />
+
+      {/*  */}
+      <FlashCard />
     </>
   );
 }
@@ -21,18 +25,49 @@ function Logo() {
 }
 
 function Form() {
+  const [quantity, setQuantity] = React.useState(1);
+  const [description, setDescription] = React.useState("");
+
+  const formSubmit = (value) => {
+    value.preventDefault();
+
+    if (!description) return;
+
+    const newItem = {
+      description,
+      quantity,
+      packed: false,
+      id: Date.now(),
+    };
+    console.log(newItem);
+
+    setDescription("");
+    setQuantity(1);
+  };
+
   return (
-    <form className='add-form'>
+    <form className='add-form' onSubmit={formSubmit}>
       <h3>What do you need for your 😍 trips? </h3>
 
-      <select>
-        <option value={1}>1</option>
-        <option value={2}>2</option>
-        <option value={3}>3</option>
-        <option value={4}>4</option>
+      <select
+        value={quantity}
+        onChange={(e) => {
+          setQuantity(e.target.value);
+        }}
+      >
+        {Array.from({ length: 10 }, (_, i) => i + 1).map((num) => (
+          <option value={num} key={num}>
+            {num}
+          </option>
+        ))}
       </select>
 
-      <input type='text' name='item' id='' placeholder='item...' />
+      <input
+        type='text'
+        placeholder='item...'
+        value={description}
+        onChange={(e) => setDescription(e.target.value)}
+      />
 
       <button>Add</button>
     </form>
@@ -73,23 +108,14 @@ function PackingList({ initialItems }) {
         })}
       </ul>
 
-      {/* <div className='actions'>
-        <select name='SORTED BY INPUT ORDER' id='sort'>
-          <option value='1'>1</option>
-          <option value='2'>2</option>
-          <option value='3'>3</option>
-          <option value='4'>4</option>
-        </select>
-        <button>Clear List</button>
-      </div> */}
       {/* <Items /> */}
     </div>
   );
 }
 
-function Items() {
-  return <div>logo</div>;
-}
+// function Items() {
+//   return <div>logo</div>;
+// }
 
 function Stats() {
   return (
