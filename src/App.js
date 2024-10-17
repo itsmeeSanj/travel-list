@@ -1,21 +1,28 @@
 import React from "react";
-import FlashCard from "./components/FlashCard";
+// import FlashCard from "./components/FlashCard";
 
 export default function App() {
-  const initialItems = [
-    { id: 1, description: "Passports", quantity: 2, packed: false },
-    { id: 2, description: "Socks", quantity: 12, packed: false },
-  ];
+  const [items, setItems] = React.useState([]);
+
+  function handleAddItems(item) {
+    setItems((items) => [...items, item]); // we cannot mutate state
+  }
+
+  const handleDeleteItems = (id) => {
+    setItems((items) => items.filter((item) => item.id !== id));
+  };
 
   return (
     <>
       <Logo />
-      <Form />
-      <PackingList initialItems={initialItems} />
-      <Stats />
+      <Form onAddItems={handleAddItems} />
+      <PackingList initialItems={items} onDeleteItem={handleDeleteItems} />
+      <Stats items={items} />
 
-      {/*  */}
-      <FlashCard />
+      {/* exercise */}
+      {/* <FlashCard /> */}
+
+      {/* date counter */}
     </>
   );
 }
@@ -24,7 +31,7 @@ function Logo() {
   return <h1>🌴Far Away💼</h1>;
 }
 
-function Form() {
+function Form({ onAddItems }) {
   const [quantity, setQuantity] = React.useState(1);
   const [description, setDescription] = React.useState("");
 
@@ -39,7 +46,8 @@ function Form() {
       packed: false,
       id: Date.now(),
     };
-    console.log(newItem);
+
+    onAddItems(newItem); //added items
 
     setDescription("");
     setQuantity(1);
@@ -65,6 +73,7 @@ function Form() {
       <input
         type='text'
         placeholder='item...'
+        // name="tripName"
         value={description}
         onChange={(e) => setDescription(e.target.value)}
       />
@@ -74,36 +83,36 @@ function Form() {
   );
 }
 
-function PackingList({ initialItems }) {
+function PackingList({ initialItems, onDeleteItem }) {
   const [isChecked, setIsChecked] = React.useState(false);
+
   return (
     <div className='list'>
       <ul>
         {initialItems.map((item, index) => {
           return (
-            <>
-              <li key={item?.id}>
-                <input
-                  type='checkbox'
-                  onChange={() => {
-                    setIsChecked(!isChecked);
-                  }}
-                />
-                <label
-                  for={item?.description}
-                  style={
-                    item?.packed
-                      ? {
-                          textDecoration: "line-through",
-                        }
-                      : { textDecoration: "none" }
-                  }
-                >
-                  {" "}
-                  {item?.quantity} {item?.description} <button>❌</button>
-                </label>
-              </li>
-            </>
+            <li key={index}>
+              <input
+                type='checkbox'
+                onChange={() => {
+                  setIsChecked(!isChecked);
+                }}
+              />
+              <label
+                for={item?.description}
+                style={
+                  item?.packed
+                    ? {
+                        textDecoration: "line-through",
+                      }
+                    : { textDecoration: "none" }
+                }
+              >
+                {" "}
+                {item?.quantity} {item?.description}{" "}
+                <button onClick={() => onDeleteItem(item?.id)}>❌</button>
+              </label>
+            </li>
           );
         })}
       </ul>
@@ -117,10 +126,14 @@ function PackingList({ initialItems }) {
 //   return <div>logo</div>;
 // }
 
-function Stats() {
+function Stats({ items }) {
+  console.log(items);
   return (
     <footer className='stats'>
-      <em>💼 You have 5 items on your list, and you already packed 0 (0%)</em>
+      <em>
+        💼 You have {items.length} items on your list, and you already packed 0
+        (0%)
+      </em>
     </footer>
   );
 }
