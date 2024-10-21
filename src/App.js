@@ -3,6 +3,7 @@ import { Logo } from "./components/Logo";
 import { Form } from "./components/Form";
 import { PackingList } from "./components/PackingList";
 import { Stats } from "./components/Stats";
+import { Accordion } from "./components/Accordion";
 // import FlashCard from "./components/FlashCard";
 
 export default function App() {
@@ -43,6 +44,9 @@ export default function App() {
         onClearList={handleClearList}
       />
       <Stats items={items} />
+
+      {/* accordion */}
+      <Accordion />
 
       {/* exercise */}
       {/* <FlashCard /> */}
