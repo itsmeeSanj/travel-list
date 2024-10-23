@@ -16,29 +16,45 @@ const faqs = [
 ];
 
 export function Accordion() {
+  const [curOpen, setCurOpen] = React.useState(null);
+
   return (
     <div className='accordion'>
       {faqs.map((item, i) => (
-        <AccordionItems num={i} title={item?.title} text={item?.text} />
+        <AccordionItems
+          num={i}
+          title={item?.title}
+          curOpen={curOpen}
+          onOpen={setCurOpen}
+        >
+          {item?.text}
+        </AccordionItems>
       ))}
     </div>
   );
 }
 
-const AccordionItems = ({ num, title, text }) => {
-  const [isOpen, setIsOpen] = React.useState(false);
+const AccordionItems = ({ num, title, text, onOpen, curOpen, children }) => {
+  const isOpen = num === curOpen;
+
+  const handleToggleOpen = (id) => {
+    onOpen(isOpen ? null : id);
+  };
+
   return (
     <>
       <div
         className={`item ${isOpen && "open"}`}
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={() => handleToggleOpen(num)}
       >
         <p className='number'>{num < 9 ? `0${num + 1}` : num + 1}</p>
         <p className={`title ${isOpen && "text"}`}>{title}</p>
         <p className='icon'>{!isOpen ? "+" : "-"}</p>
         {isOpen && (
           <div className='content-box'>
-            <ul>{text}</ul>
+            <ul>
+              <p>{children}</p>
+            </ul>
           </div>
         )}
       </div>

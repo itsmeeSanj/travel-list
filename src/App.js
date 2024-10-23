@@ -3,7 +3,8 @@ import { Logo } from "./components/Logo";
 import { Form } from "./components/Form";
 import { PackingList } from "./components/PackingList";
 import { Stats } from "./components/Stats";
-import { Accordion } from "./components/Accordion";
+// import { Accordion } from "./components/Accordion";
+import { TipCalculator } from "./components/tips/TipCalculator";
 // import FlashCard from "./components/FlashCard";
 
 export default function App() {
@@ -35,7 +36,7 @@ export default function App() {
 
   return (
     <>
-      <Logo />
+      {/* <Logo />
       <Form onAddItems={handleAddItems} />
       <PackingList
         initialItems={items}
@@ -43,15 +44,18 @@ export default function App() {
         onDeleteItem={handleDeleteItems}
         onClearList={handleClearList}
       />
-      <Stats items={items} />
+      <Stats items={items} /> */}
 
       {/* accordion */}
-      <Accordion />
+      {/* <Accordion /> */}
 
       {/* exercise */}
       {/* <FlashCard /> */}
 
       {/* date counter */}
+
+      {/* tip calculator */}
+      <TipCalculator />
     </>
   );
 }
