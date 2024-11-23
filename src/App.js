@@ -36,7 +36,7 @@ export default function App() {
 
   return (
     <>
-      {/* <Logo />
+      <Logo />
       <Form onAddItems={handleAddItems} />
       <PackingList
         initialItems={items}
@@ -44,7 +44,7 @@ export default function App() {
         onDeleteItem={handleDeleteItems}
         onClearList={handleClearList}
       />
-      <Stats items={items} /> */}
+      <Stats items={items} />
 
       {/* accordion */}
       {/* <Accordion /> */}
@@ -55,7 +55,7 @@ export default function App() {
       {/* date counter */}
 
       {/* tip calculator */}
-      <TipCalculator />
+      {/* <TipCalculator /> */}
     </>
   );
 }
