@@ -1,10 +1,16 @@
 import React from "react";
+import { useKey } from "./hook/useKey";
 
 export function Form({ onAddItems }) {
   const [quantity, setQuantity] = React.useState(1);
   const [description, setDescription] = React.useState("");
 
   const descRef = React.useRef();
+
+  useKey("Enter", function () {
+    descRef.current.focus();
+    setDescription("");
+  });
 
   const formSubmit = (value) => {
     value.preventDefault();
@@ -21,17 +27,6 @@ export function Form({ onAddItems }) {
     setDescription("");
     setQuantity(1);
   };
-
-  React.useEffect(function () {
-    function key(e) {
-      if (e.code === "Enter") {
-        descRef.current.focus();
-        setDescription("");
-      }
-    }
-    document.addEventListener("keydown", key);
-    return () => document.removeEventListener("keydown", key);
-  }, []);
 
   return (
     <form className='add-form' onSubmit={formSubmit}>
